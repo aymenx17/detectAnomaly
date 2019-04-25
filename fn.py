@@ -1,5 +1,5 @@
 #
-# These two functions frome here:
+# These two functions from here:
 # https://github.com/MVIG-SJTU/AlphaPose/tree/pytorch
 #
 # Some proper changes has been done
