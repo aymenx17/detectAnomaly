@@ -58,18 +58,21 @@ def load_json(p_ann):
 
     # load json
     p_ann = os.path.join(p_ann, 'alphapose-results.json')
-    results = json.load(open(p_ann, 'r'))
+    if os.path.isfile(p_ann):
+        results = json.load(open(p_ann, 'r'))
 
-    anns = {}
-    last_image_name = ' '
-    for i in range(len(results)):
-        imgpath = results[i]['image_id']
-        if last_image_name != imgpath:
-            anns[imgpath] = []
-            anns[imgpath].append({'keypoints':results[i]['keypoints'],'scores':results[i]['score']})
-        else:
-            anns[imgpath].append({'keypoints':results[i]['keypoints'],'scores':results[i]['score']})
-        last_image_name = imgpath
+        anns = {}
+        last_image_name = ' '
+        for i in range(len(results)):
+            imgpath = results[i]['image_id']
+            if last_image_name != imgpath:
+                anns[imgpath] = []
+                anns[imgpath].append({'keypoints':results[i]['keypoints'],'scores':results[i]['score']})
+            else:
+                anns[imgpath].append({'keypoints':results[i]['keypoints'],'scores':results[i]['score']})
+            last_image_name = imgpath
+    else:
+        anns = {}
 
     return anns
 

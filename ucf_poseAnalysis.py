@@ -17,6 +17,7 @@ Three functions:
 
 Note:   Each of the first two functions create and new directory structure.
         You can select target videos to work with by changing the python list named 'target'.
+        By default however, the code will run on all directories.
         Example : target = ['Normal_Videos_event', 'Fighting', 'Robbery']
 
 
@@ -37,7 +38,7 @@ Videos: {
         {
         vid1.mp4, vid2.mp4 . .. .
         }
-        }    
+        }
 
 '''
 
@@ -46,6 +47,7 @@ parser = argparse.ArgumentParser('Pose estimation analysis on UCF-Anomaly-Detect
 parser.add_argument('--split', action='store_true', default=False, help='Store true flag to split videos')
 parser.add_argument('--pose', action='store_true', default=False, help='Store true flag to pose estimation')
 parser.add_argument('--stats', action='store_true', default=False, help='Store true flag to print and save statistichs')
+parser.add_argument('--target', action='store_true', default=False, help='Store true flag if you have choosed targets')
 
 
 
@@ -122,14 +124,15 @@ def vis_stats(out_splitted):
                 num_frames = len(fils)
                 p_json = os.path.join(dire.replace('trainval', 'trainval_anns'))
                 anns = load_json(p_json)
-                # number of frames with at least one keypoint detection
-                num_preds = len(anns)
-                perc = round(num_preds/num_frames, 1) * 100
+                if len(anns)>0:
+                    # number of frames with at least one keypoint detection
+                    num_preds = len(anns)
+                    perc = round(num_preds/num_frames, 1) * 100
 
-                vn = dire.split('/')[-1]
-                writer.writerow({ 'VideoName': vn,'NumberOfFramesWithKeypointDetections': num_preds, 'TotalFrames': num_frames, 'Percentage':perc})
+                    vn = dire.split('/')[-1]
+                    writer.writerow({ 'VideoName': vn,'NumberOfFramesWithKeypointDetections': num_preds, 'TotalFrames': num_frames, 'Percentage':perc})
 
-                print('Number of pose detections over total frames per video: {}/{}   Percentage: {}%'.format(num_preds, num_frames, perc))
+                    print('Number of pose detections over total frames per video: {}/{}   Percentage: {}%'.format(num_preds, num_frames, perc))
 
 
 
@@ -146,7 +149,10 @@ def main():
         os.mkdir(out_splitted)
 
     # you can select target folders you want to process using this list
-    target = ['Normal_Videos_event', 'Fighting']
+    if args.target:
+        target = ['Normal_Videos_event', 'Fighting']
+    else:
+        target = os.listdir(dset_root)
 
     # create new directory structure and write frames at path out_splitted
     if args.split:
