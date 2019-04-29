@@ -18,7 +18,7 @@ This module has to be executed at the same working directory of ucf_poseAnalysis
 def main ():
 
     # root directory
-    data_root = os.path.join(os.getcwd(), 'data')
+    data_root = '/media/sdc1/'
 
     # trainval is the main dataset folder for the processed videos
     out_splitted = os.path.join(data_root, 'trainval')
@@ -37,32 +37,32 @@ def main ():
             # read the annotations specific to this folder
             p_json = os.path.join(dire.replace('trainval', 'trainval_anns'))
             anns = load_json(p_json)
-
-            # read frames
-            p_imgs = [os.path.join(dire, frame_name) for frame_name in fils if frame_name in anns]
-            frames_name = [p.split('/')[-1] for p in p_imgs ]
-            imgs = [ cv2.imread(p) for p in p_imgs]
-
-            # create a list of black images
-            shapes = [ img.shape for img in imgs]
-            empty = [np.zeros(shape, dtype=np.uint8) for shape in shapes]
-
-
-            # apply annotation
-            key_imgs = [ vis_frame(empty[i], anns[kd]) for i, kd in enumerate(frames_name)]
-
-            # concatenate
-            img_cat = [np.concatenate((img, key_imgs[i]), axis=1) for i, img in enumerate(imgs)]
-
-            p_out = os.path.join(dire.replace('trainval', 'keypoint_frames'))
-            if not os.path.isdir(p_out):
-                os.makedirs(p_out)
-
-            # save result to disk
-            for i, im in enumerate(img_cat):
-                p = os.path.join(p_out, frames_name[i])
-                cv2.imwrite(p, im)
-
-
+            if len(anns) > 0: 
+                # read frames
+                p_imgs = [os.path.join(dire, frame_name) for frame_name in fils if frame_name in anns]
+                frames_name = [p.split('/')[-1] for p in p_imgs ]
+                imgs = [ cv2.imread(p) for p in p_imgs]
+    
+                # create a list of black images
+                shapes = [ img.shape for img in imgs]
+                empty = [np.zeros(shape, dtype=np.uint8) for shape in shapes]
+    
+    
+                # apply annotation
+                key_imgs = [ vis_frame(empty[i], anns[kd]) for i, kd in enumerate(frames_name)]
+    
+                # concatenate
+                img_cat = [np.concatenate((img, key_imgs[i]), axis=1) for i, img in enumerate(imgs)]
+    
+                p_out = os.path.join(dire.replace('trainval', 'keypoint_frames'))
+                if not os.path.isdir(p_out):
+                    os.makedirs(p_out)
+    
+                # save result to disk
+                for i, im in enumerate(img_cat):
+                    p = os.path.join(p_out, frames_name[i])
+                    cv2.imwrite(p, im)
+    
+    
 if __name__ == "__main__":
     main()
