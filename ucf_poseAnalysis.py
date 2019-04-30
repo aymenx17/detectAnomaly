@@ -17,7 +17,6 @@ Three functions:
 
 Note:   Each of the first two functions create and new directory structure.
         You can select target videos to work with by changing the python list named 'target'.
-        By default however, the code will run on all directories.
         Example : target = ['Normal_Videos_event', 'Fighting', 'Robbery']
 
 
@@ -48,7 +47,7 @@ parser.add_argument('--split', action='store_true', default=False, help='Store t
 parser.add_argument('--pose', action='store_true', default=False, help='Store true flag to pose estimation')
 parser.add_argument('--stats', action='store_true', default=False, help='Store true flag to print and save statistichs')
 parser.add_argument('--target', action='store_true', default=False, help='Store true flag if you have choosed targets')
-
+parser.add_argument('--limit', action='store_true',  default=False, help='Store true flag to process only videos below certain length')
 
 
 
@@ -85,15 +84,20 @@ def split_videos(dset_root, outpath, target):
 
 
 
-def pose_estimation(outpath, outanns):
+def pose_estimation(outpath, outanns, target):
 
+    max_length = 2e03
+    args = parser.parse_args()
     for i,(dire, folds, fils) in enumerate(os.walk(outpath)):
         if i ==0:
             print('Main dataset directory: {}\n  Subdirectories within it: {}\n'.format(dire, folds))
             continue
 
         # run command on the frames
-        if len(folds) == 0 and len(fils) > 0:
+        if len(folds) == 0 and len(fils) > 0 and (dire.split('/')[-2] in target):
+
+            if args.limit and len(fils) > max_length:
+                continue
 
             # loop over video frames
             print('Processing video frames in: {}'.format(dire))
@@ -124,7 +128,7 @@ def vis_stats(out_splitted):
                 num_frames = len(fils)
                 p_json = os.path.join(dire.replace('trainval', 'trainval_anns'))
                 anns = load_json(p_json)
-                if len(anns)>0:
+                if len(anns) >0:
                     # number of frames with at least one keypoint detection
                     num_preds = len(anns)
                     perc = round(num_preds/num_frames, 1) * 100
@@ -138,7 +142,7 @@ def vis_stats(out_splitted):
 
 def main():
     # root directory
-    data_root = os.path.join(os.getcwd(), 'data')
+    data_root = '/media/sdc1'
     # UCF_Anomalies dataset path. Replace the name trial_dataset with the proper name. Default: Videos
     dset_root = os.path.join(data_root, 'Videos')
     args = parser.parse_args()
@@ -150,16 +154,15 @@ def main():
 
     # you can select target folders you want to process using this list
     if args.target:
-        target = ['Normal_Videos_event', 'Fighting']
+        target = ['Training-Normal-Videos-Part-1']
     else:
         target = os.listdir(dset_root)
 
+    print('targets: {}'.format(target))
     # create new directory structure and write frames at path out_splitted
     if args.split:
         split_videos(dset_root, out_splitted, target)
 
-    print('\n'*5)
-    print('Running pose estimation\n\n')
 
     # output annotation path (json files)
     outanns = os.path.join(data_root, 'trainval_anns')
@@ -167,10 +170,12 @@ def main():
         os.mkdir(outanns)
 
     # set working directory for AlphaPose framework
-    os.chdir('/home/paperspace/work/pytorch/intuition/AlphaPose')
+    os.chdir('/home/ubuntu/work/pytorch/intuition/AlphaPose')
     # create new directory structure and write annotation files at outanns
     if args.pose:
-        pose_estimation(out_splitted, outanns)
+        print('\n'*5)
+        print('Running pose estimation\n\n')
+        pose_estimation(out_splitted, outanns, target)
 
     # print statistichs
     if args.stats:

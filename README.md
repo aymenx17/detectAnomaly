@@ -43,15 +43,16 @@ At first run, you need to set the path for pose framework: In the code under the
 
 ```python
 python ucf_poseAnalysis.py --help # will also show available targets
-python  --split        # only to split on the whole dataset
-python --pose --stats  # runs pose on the previously split videos
-python --split --pose --stats --target # split and runs pose on target videos, saving statistics
+python  \-\-split        # only to split on the whole dataset
+python \-\-pose \-\-stats  # runs pose on the previously split videos
+python `--`split `--`pose `--`stats `--`target # split and runs pose on target videos, saving statistics
 ```
 
 
 
 ##### Sample of statistics from stats.csv
 
+![statistics](https://github.com/aymenx17/blob/master/project_images/stats.png)
 
 
 #### vis_keypoints.py
@@ -69,24 +70,25 @@ python vis_keypoints.py
 
 ##### Sample visualization
 
-
+![2320.png](https://github.com/aymenx17/blob/master/project_images/2320.jpg)
+![2321.png](https://github.com/aymenx17/blob/master/project_images/2321.jpg)
 
 ### Citations and References
 
 ##### For the dataset:
 
-Citation:
-@InProceedings{Sultani_2018_CVPR,
-author = {Sultani, Waqas and Chen, Chen and Shah, Mubarak},
-title = {Real-World Anomaly Detection in Surveillance Videos},
-booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-month = {June},
-year = {2018}
-}
+Citation:  
+@InProceedings{Sultani_2018_CVPR,  
+author = {Sultani, Waqas and Chen, Chen and Shah, Mubarak},  
+title = {Real-World Anomaly Detection in Surveillance Videos},  
+booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},  
+month = {June},  
+year = {2018}  
+}  
 
 ##### For pose estimation:
 
-[Code](https://github.com/MVIG-SJTU/AlphaPose/tree/pytorch)
+[Code](https://github.com/MVIG-SJTU/AlphaPose/tree/pytorch)  
 @inproceedings{fang2017rmpe,
   title={{RMPE}: Regional Multi-person Pose Estimation},
   author={Fang, Hao-Shu and Xie, Shuqin and Tai, Yu-Wing and Lu, Cewu},
