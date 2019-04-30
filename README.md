@@ -43,16 +43,15 @@ At first run, you need to set the path for pose framework: In the code under the
 
 ```python
 python ucf_poseAnalysis.py --help # will also show available targets
-python  \-\-split        # only to split on the whole dataset
-python \-\-pose \-\-stats  # runs pose on the previously split videos
-python `--`split `--`pose `--`stats `--`target # split and runs pose on target videos, saving statistics
+python -- split        # only to split on the whole dataset
+python --pose --stats  # runs pose on the previously split videos
+python --split --pose --stats --target # split and runs pose on target videos, saving statistics
 ```
-
 
 
 ##### Sample of statistics from stats.csv
 
-![statistics](https://github.com/aymenx17/blob/master/project_images/stats.png)
+![statistics](https://github.com/aymenx17/detectAnomaly/blob/master/project_images/stats.png)
 
 
 #### vis_keypoints.py
@@ -70,8 +69,8 @@ python vis_keypoints.py
 
 ##### Sample visualization
 
-![2320.png](https://github.com/aymenx17/blob/master/project_images/2320.jpg)
-![2321.png](https://github.com/aymenx17/blob/master/project_images/2321.jpg)
+![](https://github.com/aymenx17/detectAnomaly/blob/master/project_images/2320.jpg)
+![](https://github.com/aymenx17/detectAnomaly/blob/master/project_images/2321.jpg)
 
 ### Citations and References
 
@@ -89,15 +88,16 @@ year = {2018}
 ##### For pose estimation:
 
 [Code](https://github.com/MVIG-SJTU/AlphaPose/tree/pytorch)  
-@inproceedings{fang2017rmpe,
-  title={{RMPE}: Regional Multi-person Pose Estimation},
-  author={Fang, Hao-Shu and Xie, Shuqin and Tai, Yu-Wing and Lu, Cewu},
-  booktitle={ICCV},
-  year={2017}
-}
-@inproceedings{xiu2018poseflow,
-  author = {Xiu, Yuliang and Li, Jiefeng and Wang, Haoyu and Fang, Yinghong and Lu, Cewu},
-  title = {{Pose Flow}: Efficient Online Pose Tracking},
-  booktitle={BMVC},
-  year = {2018}
-}
+@inproceedings{fang2017rmpe,  
+  title={{RMPE}: Regional Multi-person Pose Estimation},  
+  author={Fang, Hao-Shu and Xie, Shuqin and Tai, Yu-Wing and Lu, Cewu},  
+  booktitle={ICCV},  
+  year={2017}  
+}  
+@inproceedings{xiu2018poseflow,  
+  author = {Xiu, Yuliang and Li, Jiefeng and Wang, Haoyu and Fang, Yinghong and Lu, Cewu},  
+  title = {{Pose Flow}: Efficient Online Pose Tracking},  
+  booktitle={BMVC},  
+  year = {2018}  
+}  
+
