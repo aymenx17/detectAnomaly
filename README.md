@@ -47,7 +47,6 @@ python --split --pose --stats --target # split and runs pose on target videos, s
 ```
 
 
-
 ##### Sample of statistics from stats.csv
 
 ![statistics](https://github.com/aymenx17/detectAnomaly/blob/master/project_images/stats.png)
