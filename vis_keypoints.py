@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import os
 from fn import vis_frame as vis_frame
-from load_dataset import load_json
+from ucf_poseAnalysis import load_json
 
 '''
 
