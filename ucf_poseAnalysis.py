@@ -4,7 +4,7 @@ import subprocess
 import json
 import csv
 import argparse
-from load_dataset import load_json
+
 
 '''
 
@@ -49,7 +49,31 @@ parser.add_argument('--stats', action='store_true', default=False, help='Store t
 parser.add_argument('--target', action='store_true', default=False, help='Store true flag if you have choosed targets')
 parser.add_argument('--limit', action='store_true',  default=False, help='Store true flag to process only videos below certain length')
 
+def load_json(p_ann):
+    '''
+    A for loop that reads a list of keypoints and rearrange in a directory whose keys are named as the input frames.
+    This is done to obtain a suitable format to work with.
+    '''
 
+    # load json
+    p_ann = os.path.join(p_ann, 'alphapose-results.json')
+    if os.path.isfile(p_ann):
+        results = json.load(open(p_ann, 'r'))
+
+        anns = {}
+        last_image_name = ' '
+        for i in range(len(results)):
+            imgpath = results[i]['image_id']
+            if last_image_name != imgpath:
+                anns[imgpath] = []
+                anns[imgpath].append({'keypoints':results[i]['keypoints'],'scores':results[i]['score']})
+            else:
+                anns[imgpath].append({'keypoints':results[i]['keypoints'],'scores':results[i]['score']})
+            last_image_name = imgpath
+    else:
+        anns = {}
+
+    return anns
 
 def split_videos(dset_root, outpath, target):
 
